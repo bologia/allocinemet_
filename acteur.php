@@ -13,7 +13,7 @@
 <!--  pour la police des titres  -->
     <link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
 <!-- pour les autres textes -->
-<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
 <!--mon CSS -->
     <link rel="stylesheet" href="css/style_pages_cont_real_act.css">
     <link rel="stylesheet" href="css/footer.css">
@@ -42,9 +42,48 @@
 
   <main id="acteur">
 
+    <?php
+
+// condition si il n'y a pas d'id
+    if(isset($_GET['id'])){
+
+    } else {
+      header('Location: allo_films.php');
+      exit();
+    }
+
+    try
+    {
+  // On se connecte à MySQL
+    $bdd = new PDO('mysql:host=localhost;dbname=cinemet-bolo;charset=utf8mb4','gianni','piouroot');
+    }
+    catch(Exception $e)
+    {
+  // En cas d'erreur, on affiche un message et on arrête tout
+    die('Erreur : '.$e->getMessage());
+    }
+
+  // Si tout va bien, on peut continuer
+
+  // On récupère tout le contenu de la table
+     $id = $_GET['id'];
+     $req = "SELECT * FROM acteur WHERE id_acteur=$id";
+     $reponse = $bdd->query($req);
+
+     //header('Location: allo_films.php'); pour rediriger
+     //exit();
+
+     //SELECT * FROM film, realisateur WHERE id_film=1 and film.id_realisateur = realisateur.id_realisateur
+
+
+  // On affiche chaque entrée une à une
+    while ($donnees = $reponse->fetch())
+    {
+    ?>
+
         <!--  pour le titre -->
         <div class="hoofd">
-          <h1 class="text-uppercase">Nom de l'acteur</h1>
+          <h1 class="text-uppercase"><?php echo $donnees['nom_acteur']; ?></h1>
           <div class="fleches_2">
           <img class="fleche_g animated fadeInLeft" src="img/ligne_g.png">
           <img class="fleche_d animated fadeInRight" src="img/ligne_d.png">
@@ -58,33 +97,17 @@
   <div class="col-10 col-sm-10 col-md-5 col-lg-5 col-xl-6">
 
   <div class="list-group CI">
-<a href="#" class="list-group-item list-group-item-action">
+<a class="list-group-item list-group-item-action">
   <div class="d-flex w-100 justify-content-between">
-    <h5 class="mb-1">Naissance</h5>
+    <h5 class="mb-1">Bio</h5>
   </div>
-  <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-  <small>Donec id elit non mi porta.</small>
+  <p class="mb-1"><?php echo $donnees['bio_acteur']; ?></p>
 </a>
-<a href="#" class="list-group-item list-group-item-action">
+<a class="list-group-item list-group-item-action">
   <div class="d-flex w-100 justify-content-between">
-    <h5 class="mb-1">Vie</h5>
+    <h5 class="mb-1">Filmographie</h5>
   </div>
-  <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-  <small class="text-muted">Donec id elit non mi porta.</small>
-</a>
-<a href="#" class="list-group-item list-group-item-action">
-  <div class="d-flex w-100 justify-content-between">
-    <h5 class="mb-1">Filiation</h5>
-  </div>
-  <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-  <small class="text-muted">Donec id elit non mi porta.</small>
-</a>
-<a href="#" class="list-group-item list-group-item-action">
-  <div class="d-flex w-100 justify-content-between">
-    <h5 class="mb-1">Mort</h5>
-  </div>
-  <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-  <small>Donec id elit non mi porta.</small>
+  <p class="mb-1"><?php echo $donnees['filmographie_acteur']; ?></p>
 </a>
 </div>
 </div>
@@ -94,7 +117,7 @@
 
 <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
 
-  <iframe class="shadow p-3 mb-5 bg-light rounded" src="" height="400px" width="300px"></iframe>
+  <iframe class="shadow p-3 mb-4 bg-light rounded" src="img/<?php echo $donnees['photo_acteur']; ?>" height="400px" width="300px"></iframe>
 
 </div>
 <div class="col-3 col-sm-3 col-md-2 col-lg-2 col-xl-1"></div>
@@ -122,11 +145,11 @@
 
     <div class="col-md-10">
         <div class="liens_films">
-            <a href="#"><img class="affiche" src="img/1.jpg"></a>
+            <a href="#"><img class="affiche" src="img/11.jpg"></a>
             <a href="#"><img class="affiche" src="img/2.jpg"></a>
             <a href="#"><img class="affiche" src="img/3.jpg"></a>
             <a href="#"><img class="affiche" src="img/4.jpg"></a>
-            <a href="#"><img class="affiche" src="img/5.jpg"></a>
+            <a href="#"><img class="affiche" src="img/5.jpeg"></a>
             <a href="#"><img class="affiche" src="img/6.jpg"></a>
             <a href="#"><img class="affiche" src="img/7.jpg"></a>
             <a href="#"><img class="affiche" src="img/8.jpg"></a>
@@ -135,6 +158,13 @@
 
         </div>
     </div>
+
+    <?php
+    }
+
+    $reponse->closeCursor(); // Termine le traitement de la requête
+
+    ?>
 
     </main>
 

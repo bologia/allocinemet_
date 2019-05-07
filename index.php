@@ -42,13 +42,13 @@
     <div onmouseover="nav2()" id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="img/THE-VILLAINESS.jpg" class="d-block w-100 img" height="960px" class="d-block w-100" alt="...">
+                <img src="img/x1080-jMf.jpg" class="d-block w-100 img" height="960px" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
                 <img src="img/hobbit_3.jpg" class="d-block w-100 img" height="960px"  class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
-                <img src="img/escobar.jpg" class="d-block w-100 img" height="960px" class="d-block w-100" alt="...">
+                <img src="img/endgame.jpg" class="d-block w-100 img" height="960px" class="d-block w-100" alt="...">
             </div>
         </div>
         <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -61,46 +61,68 @@
         </a>
     </div>
     <div class="bg1">
-        <h1 class="text-center text-light  mb-3">à l' affiche</h1>
+        <h1 class="text-center text-light  mb-3">bientôt dispo</h1>
         <div class="ligne text-center">
           <img class="ligne_g fadeInLeft animated" src="img/ligne_g.png">
           <img class="ligne_d fadeInRight animated" src="img/ligne_d.png">
       </div>
-    <div class="carousel mt-5" data-flickity>
-        <div class="carousel-cell"><img class="img_caroussel" width="500px" src="img/creed.jpeg"></div>
-        <div class="carousel-cell"><img class="img_caroussel" width="500px" src="img/avengers.jpeg"></div>
-        <div class="carousel-cell"><img class="img_caroussel" width="500px" src="img/lempereur.jpeg"></div>
-        <div class="carousel-cell"><img class="img_caroussel" width="500px" src="img/venom.jpeg"></div>
-        <div class="carousel-cell"><img class="img_caroussel" width="500px" src="img/téléchargement.jpeg"></div>
 
-        <div class="carousel-cell"><img class="img_caroussel" width="500px" src="img/creed.jpeg"></div>
-        <div class="carousel-cell"><img class="img_caroussel" width="500px" src="img/avengers.jpeg"></div>
-        <div class="carousel-cell"><img class="img_caroussel" width="500px" src="img/lempereur.jpeg"></div>
-        <div class="carousel-cell"><img class="img_caroussel" width="500px" src="img/venom.jpeg"></div>
-        <div class="carousel-cell"><img class="img_caroussel" width="500px" src="img/téléchargement.jpeg"></div>
-        </div>
+      <div class="carousel mt-5" data-flickity>
+
+        <?php
+        try
+        {
+      // On se connecte à MySQL
+        $bdd = new PDO('mysql:host=localhost;dbname=cinemet-bolo','gianni','piouroot');
+        }
+        catch(Exception $e)
+        {
+      // En cas d'erreur, on affiche un message et on arrête tout
+        die('Erreur : '.$e->getMessage());
+        }
+
+         $req = "SELECT imag,id_film FROM film";
+         $reponse = $bdd->query($req);
+
+      // On affiche chaque entrée une à une
+        while ($donnees = $reponse->fetch())
+        {
+        ?>
+
+        <a href="content.php?id=<?php echo $donnees['id_film']; ?>">
+          <div class="carousel-cell"><img class="img_caroussel" width="500px" src="img/<?php echo $donnees['imag']; ?>"></div>
+        </a>
+
+
+        <?php
+        }
+        $reponse->closeCursor(); // Termine le traitement de la requête
+        ?>
+
+      </div>
     </div>
-    <div class="parallax-window" data-parallax="scroll" data-image-src="./img/pop.jpeg"></div>
+
+
+    <div class="parallax-window" data-parallax="scroll" data-image-src="./img/cinem.jpg"></div>
     <div onmouseover="nav1()" class="container-titre mx-auto my-5 text-center">
             <h1>ALLOCINEMET</h1>
-            <hr class="col-4" style="background-color: red;">
+            <hr class="col-4" style="background-color: blue;">
         </div>
-        <div class="container-fluid col-12 mx-auto my-5">
+        <div class="container-fluid col-12 mx-auto">
+          <div class="row">
+            <div class="col-1 mx-auto"></div>
             <div class="image float-left col-4">
                 <img src="https://i.ytimg.com/vi/GXM838nBLuw/maxresdefault.jpg"  class="img-fluid" alt="Responsive image">
             </div>
-            <div class="text-center container-fluid mx-auto ">
+            <div class="col-2 mx-auto"></div>
+            <div class="text-center container-fluid col-4 mx-auto" id="reduction">
                 <h2 class=" container-fluid mx-auto">Lorem Ipsum</h2>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga error reiciendis repellat, aut quos
                     culpa
                     distinctio tempora a laudantium voluptatem eligendi possimus nesciunt quas maiores, asperiores
                     beatae
-                    esse? Nulla, totam.</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, nesciunt sapiente. Magnam dicta
-                    eligendi
-                    repellendus repellat dolore saepe rem totam. Possimus quam illo aliquam repudiandae ipsam nam ad, et
-                    quis?</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, nesciunt sapiente. Magnam dicta
+                    esse? Nulla, totam.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, nesciunt sapiente. Magnam dicta
                     eligendi
                     repellendus repellat dolore saepe rem totam. Possimus quam illo aliquam repudiandae ipsam nam ad, et
                     quis?</p>
@@ -112,6 +134,8 @@
                     voluptates est voluptatibus architecto iusto molestias esse sapiente hic nulla quasi vel aperiam a
                     ex tempora!</p>
             </div>
+            <div class="col-1 mx-auto"></div>
+          </div>
         </div>
 
     <footer id="footer" class="page-footer font-small text-white mdb-color pt-4">
@@ -189,7 +213,7 @@
               </div>
               <!-- Footer links -->
 
-              <hr class="hr-footer">
+              <hr class="hr-footer" color="black">
 
               <!-- Grid row -->
               <div class="row d-flex align-items-center">

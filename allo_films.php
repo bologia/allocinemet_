@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>films</title>
     <link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
     <link src="css/animate.css" rel="stylesheet">
@@ -55,54 +55,38 @@
 
                     <button>Rechercher</button>
 
-                    <li><a href="#" class="collapsible">Action</a>
+                    <?php
+                    try
+                    {
+                  // On se connecte à MySQL
+                    $bdd = new PDO('mysql:host=localhost;dbname=cinemet-bolo;charset=utf8mb4','gianni','piouroot');
+                    }
+                    catch(Exception $e)
+                    {
+                  // En cas d'erreur, on affiche un message et on arrête tout
+                    die('Erreur : '.$e->getMessage());
+                    }
+
+                     $req = "SELECT nom_genre,id_genre FROM genre";
+                     $reponse = $bdd->query($req);
+
+                  // On affiche chaque entrée une à une
+                    while ($donnees = $reponse->fetch())
+                    {
+                    ?>
+
+                    <li><a class="collapsible"><?php echo $donnees['nom_genre']; ?></a>
                         <ul>
-                            <li><a href="#">Top 2019</a></li>
-                            <li><a href="#">Meilleurs films</a></li>
-                            <li><a href="#">Box office</a></li>
-                            <li><a href="#">Tous les films</a></li>
+                            <li><a href="#">Nouveautés</a></li>
+                            <li><a href="type.php?id=<?php echo $donnees['id_genre']; ?>">Tous les films</a></li>
                         </ul>
                     </li>
-                    <li><a href="#" class="collapsible">Science-fiction</a>
-                        <ul>
-                            <li><a href="#">Top 2019</a></li>
-                            <li><a href="#">Meilleurs films</a></li>
-                            <li><a href="#">Box office</a></li>
-                            <li><a href="#">Tous les films</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#" class="collapsible">Comédie</a>
-                        <ul>
-                            <li><a href="#">Top 2019</a></li>
-                            <li><a href="#">Meilleurs films</a></li>
-                            <li><a href="#">Box office</a></li>
-                            <li><a href="#">Tous les films</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#" class="collapsible">Drame</a>
-                        <ul>
-                            <li><a href="#">Top 2019</a></li>
-                            <li><a href="#">Meilleurs films</a></li>
-                            <li><a href="#">Box office</a></li>
-                            <li><a href="#">Tous les films</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#" class="collapsible">Animation</a>
-                        <ul>
-                            <li><a href="#">Top 2019</a></li>
-                            <li><a href="#">Meilleurs films</a></li>
-                            <li><a href="#">Box office</a></li>
-                            <li><a href="#">Tous les films</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#" class="collapsible">Horreur</a>
-                        <ul>
-                            <li><a href="#">Top 2019</a></li>
-                            <li><a href="#">Meilleurs films</a></li>
-                            <li><a href="#">Box office</a></li>
-                            <li><a href="#">Tous les films</a></li>
-                        </ul>
-                    </li>
+
+                    <?php
+                    }
+                    $reponse->closeCursor(); // Termine le traitement de la requête
+                    ?>
+
                 </ul>
             </div>
 
@@ -140,71 +124,81 @@
 
         <!--//////////////////////////////  MINIATURES FILMS DROITE  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\-->
 
-
-
         <div class="col-lg-9 col-md-8 col-sm-8">
             <div class="liens_films fadeInUp animated">
                 <div class="titre"> Nouveautés </div><br />
-                <a href="content.php" ><img class="effect " src="img/1.jpg" id="action">
-                    <p>blablabla</p>
-                </a>
-                <a href="content.php" ><img class="effect " src="img/2.jpg" id="science-fiction">
-                    <p>blablabla</p>
-                </a>
-                <a href="content.php" ><img class="effect " src="img/3.jpg" id="horreur">
-                    <p>blablabla</p>
-                </a>
-                <a href="content.php" ><img class="effect " src="img/4.jpg" id="action">
-                    <p>blablabla</p>
-                </a>
-                <a href="content.php" ><img class="effect " src="img/5.jpg" id="science-fiction">
-                    <p>blablabla</p>
-                </a>
-                <a href="content.php" ><img class="effect " src="img/6.jpg" id="horreur">
-                    <p>blablabla</p>
-                </a>
-                <a href="content.php" ><img class="effect " src="img/7.jpg" id="action">
-                    <p>blablabla</p>
-                </a>
-                <a href="content.php" ><img class="effect " src="img/8.jpg" id="science-fiction">
-                    <p>blablabla</p>
-                </a>
-                <a href="content.php" ><img class="effect " src="img/9.jpg" id="horreur">
-                    <p>blablabla</p>
-                </a>
-                <a href="content.php" ><img class="effect " src="img/10.jpg" id="action">
-                    <p>blablabla</p>
-                </a>
-            </div>
+
+    <div class="test">
+        <?php
+        try
+        {
+      // On se connecte à MySQL
+        $bdd = new PDO('mysql:host=localhost;dbname=cinemet-bolo;charset=utf8mb4','gianni','piouroot');
+        }
+        catch(Exception $e)
+        {
+      // En cas d'erreur, on affiche un message et on arrête tout
+        die('Erreur : '.$e->getMessage());
+        }
+
+         $req = "SELECT imag,titre,id_film FROM film";
+         $reponse = $bdd->query($req);
+
+      // On affiche chaque entrée une à une
+        while ($donnees = $reponse->fetch())
+        {
+        ?>
+
+            <a href="content.php?id=<?php echo $donnees['id_film']; ?>"><img class="effect " src="img/<?php echo $donnees['imag']; ?>" id="action">
+                <p><?php echo $donnees['titre']; ?></p>
+            </a>
+
+        <?php
+        }
+        $reponse->closeCursor(); // Termine le traitement de la requête
+        ?>
+
+    </div>
+           </div>
         </div>
 
 
         <!--//////////////////////////////  CAROUSEL SIEMA  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\-->
 
         <div class="siema">
-            <img src="img/1.jpg">
-            <img src="img/2.jpg">
-            <img src="img/3.jpg">
-            <img src="img/4.jpg">
-            <img src="img/5.jpg">
-            <img src="img/6.jpg">
-            <img src="img/7.jpg">
-            <img src="img/8.jpg">
-            <img src="img/9.jpg">
-            <img src="img/10.jpg">
-            <img src="img/1.jpg">
-            <img src="img/2.jpg">
-            <img src="img/3.jpg">
-            <img src="img/4.jpg">
-            <img src="img/5.jpg">
-            <img src="img/6.jpg">
+
+          <?php
+          try
+          {
+        // On se connecte à MySQL
+          $bdd = new PDO('mysql:host=localhost;dbname=cinemet-bolo','gianni','piouroot');
+          }
+          catch(Exception $e)
+          {
+        // En cas d'erreur, on affiche un message et on arrête tout
+          die('Erreur : '.$e->getMessage());
+          }
+
+           $req = "SELECT imag,id_film FROM film";
+           $reponse = $bdd->query($req);
+
+        // On affiche chaque entrée une à une
+          while ($donnees = $reponse->fetch())
+          {
+          ?>
+
+          <a href="content.php?id=<?php echo $donnees['id_film']; ?>"><img src="img/<?php echo $donnees['imag']; ?>">
+          </a>
+
+
+          <?php
+          }
+          $reponse->closeCursor(); // Termine le traitement de la requête
+          ?>
+
         </div>
 
-        <button class="prev">
-            <p>
-                <</p> </button> <button class="next">
-                    <p>></p>
-        </button>
+
     </div>
 
     <!--            APPARITION IMAGE SELON SCROLL

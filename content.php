@@ -46,7 +46,7 @@
     try
     {
   // On se connecte à MySQL
-    $bdd = new PDO('mysql:host=localhost;dbname=test-cinemat','gianni','piouroot');
+    $bdd = new PDO('mysql:host=localhost;dbname=cinemet-bolo;charset=utf8mb4','gianni','piouroot');
     }
     catch(Exception $e)
     {
@@ -57,7 +57,14 @@
   // Si tout va bien, on peut continuer
 
   // On récupère tout le contenu de la table
-    $reponse = $bdd->query('SELECT * FROM film');
+     $id = $_GET['id'];
+     $req = "SELECT * FROM film,realisateur,genre,acteur WHERE id_film=$id and film.id_realisateur = realisateur.id_realisateur and film.id_genre = genre.id_genre and film.id_acteur = acteur.id_acteur";
+     $reponse = $bdd->query($req);
+
+     //header('Location: allo_films.php');
+     //exit();
+     //SELECT * FROM film, realisateur WHERE id_film=1 and film.id_realisateur = realisateur.id_realisateur
+
 
   // On affiche chaque entrée une à une
     while ($donnees = $reponse->fetch())
@@ -76,23 +83,12 @@
 
     <!-- pour l'image du film -->
     <div class="media shadow-lg p-3 mb-5 bg-light rounded">
-      <img src="..." class="mr-3" alt="...">
+      <img src="img/<?php echo $donnees['imag']; ?>" class="mr-3" alt="..">
     </div>
 
     <!-- pour la description du film -->
 
-    <p class="text-center bg-light"><?php echo $donnees['date']; ?>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-      minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-      esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-      non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-      minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-      esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-      non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    <p class="text-center bg-light"><?php echo $donnees['resume']; ?>
     </p>
 
     <!-- pour la partie récap d'infos et la bande annonce -->
@@ -102,38 +98,42 @@
     <div class="col-10 col-sm-10 col-md-10 col-lg-4 col-xl-5">
 
     <div class="list-group">
-  <a href="realisateur.html" class="list-group-item list-group-item-action">
+  <div class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">Date</h5>
+    </div>
+    <p class="mb-1"><?php echo $donnees['date']; ?></p>
+
+  </div>
+  <a href="realisateur.php?id=<?php echo $donnees['id_realisateur']; ?>" class="list-group-item list-group-item-action">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1">Réalisateur</h5>
     </div>
-    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-    <small>Donec id elit non mi porta.</small>
+    <p class="mb-1"><?php echo $donnees['nom_realisateur']; ?></p>
   </a>
-  <a href="#" class="list-group-item list-group-item-action">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">Production</h5>
-    </div>
-    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-    <small class="text-muted">Donec id elit non mi porta.</small>
-  </a>
-  <a href="acteur.html" class="list-group-item list-group-item-action">
+  <a href="acteur.php?id=<?php echo $donnees['id_acteur']; ?>" class="list-group-item list-group-item-action">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1">Acteurs</h5>
     </div>
-    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-    <small class="text-muted">Donec id elit non mi porta.</small>
+    <p class="mb-1"><?php echo $donnees['nom_acteur']; ?></p>
   </a>
-</div>
-</div>
+  <a href="type.php?id=<?php echo $donnees['id_genre']; ?>" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">Genre</h5>
+    </div>
+    <p class="mb-1"><?php echo $donnees['nom_genre']; ?></p>
+  </a>
+    </div>
+    </div>
 
   <div class="col-1 col-sm-3 col-md-3 col-lg-1 col-xl-1"></div>
   <div class="col-8 col-sm-8 col-md-8 col-lg-4 col-xl-4">
-    <iframe class="shadow-lg p-3 mb-5 bg-light rounded" src="" height="250px" width="450px"></iframe>
+    <?php echo $donnees['video']; ?>
   </div>
 
-<div class="col-2 col-sm-2 col-md-2 col-lg-1 col-xl-1"></div>
+  <div class="col-2 col-sm-2 col-md-2 col-lg-1 col-xl-1"></div>
 
-</div>
+  </div>
 
       <?php
       }
