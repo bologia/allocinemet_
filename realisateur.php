@@ -21,6 +21,7 @@
 </head>
 
 <body>
+
     <!--//////////////////////////////  NAVBAR  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\-->
 
     <header id="haut">
@@ -29,8 +30,8 @@
             <div id="Navbar">
                 <a class="liens" href="allo_films.php">FILMS </a>
                 <a class="liens"href="contact.php">CONTACT </a>
-                <a class="liens"href="acteur.php">ACTEURS </a>
-                <a class="liens"href="realisateur.php">REALISATEURS </a>
+                <a class="liens"href="perso.php">ARTISTES </a>
+
             </div>
             <div class="m-nav-toggle">
                 <span class="m-toggle-icon"></span>
@@ -51,27 +52,12 @@
           exit();
         }
 
-    try
-    {
-  // On se connecte à MySQL
-    $bdd = new PDO('mysql:host=localhost;dbname=cinemet-bolo;charset=utf8mb4','gianni','piouroot');
-    }
-    catch(Exception $e)
-    {
-  // En cas d'erreur, on affiche un message et on arrête tout
-    die('Erreur : '.$e->getMessage());
-    }
-
-  // Si tout va bien, on peut continuer
+        include('bdd.php');
 
   // On récupère tout le contenu de la table
      $id = $_GET['id'];
      $req = "SELECT * FROM realisateur WHERE id_realisateur=$id ";
      $reponse = $bdd->query($req);
-
-     //header('Location: allo_films.php');
-     //exit();
-     //SELECT * FROM film, realisateur WHERE id_film=1 and film.id_realisateur = realisateur.id_realisateur
 
 
   // On affiche chaque entrée une à une
@@ -133,8 +119,6 @@
 
 
 <!--  pour la descrition de l'oeuvre du réalisateur  -->
-
-
     <p class="text-center shadow-lg p-3 mb-5 bg-light rounded">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
       sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
       minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
@@ -151,16 +135,28 @@
 
     <div class="col-md-10">
         <div class="liens_films">
-            <a href="#"><img class="affiche" src="img/11.jpg"></a>
-            <a href="#"><img class="affiche" src="img/2.jpg"></a>
-            <a href="#"><img class="affiche" src="img/3.jpg"></a>
-            <a href="#"><img class="affiche" src="img/4.jpg"></a>
-            <a href="#"><img class="affiche" src="img/5.jpeg"></a>
-            <a href="#"><img class="affiche" src="img/6.jpg"></a>
-            <a href="#"><img class="affiche" src="img/7.jpg"></a>
-            <a href="#"><img class="affiche" src="img/8.jpg"></a>
-            <a href="#"><img class="affiche" src="img/9.jpg"></a>
-            <a href="#"><img class="affiche" src="img/10.jpg"></a>
+          <div class="titre">Ces réalisations</div><br />
+
+          <?php
+
+          include('bdd.php');
+
+          $id = $_GET['id'];
+          $req = "SELECT * FROM realisateur,film WHERE realisateur.id_realisateur=$id AND film.id_realisateur = realisateur.id_realisateur";
+          $reponse = $bdd->query($req);
+
+        // On affiche chaque entrée une à une
+          while ($donnees = $reponse->fetch())
+          {
+          ?>
+
+              <a href="content.php?id=<?php echo $donnees['id_film']; ?>"><img class="affiche " src="img/<?php echo $donnees['imag']; ?>" id="action">
+              </a>
+
+          <?php
+          }
+          $reponse->closeCursor(); // Termine le traitement de la requête
+          ?>
 
         </div>
     </div>

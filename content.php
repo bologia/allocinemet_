@@ -30,8 +30,8 @@
             <div id="Navbar">
                 <a class="liens" href="allo_films.php">FILMS </a>
                 <a class="liens"href="contact.php">CONTACT </a>
-                <a class="liens"href="acteur.php">ACTEURS </a>
-                <a class="liens"href="realisateur.php">REALISATEURS </a>
+                <a class="liens"href="perso.php">ARTISTES </a>
+
             </div>
             <div class="m-nav-toggle">
                 <span class="m-toggle-icon"></span>
@@ -43,28 +43,13 @@
   <main id="content">
 
     <?php
-    try
-    {
-  // On se connecte à MySQL
-    $bdd = new PDO('mysql:host=localhost;dbname=cinemet-bolo;charset=utf8mb4','gianni','piouroot');
-    }
-    catch(Exception $e)
-    {
-  // En cas d'erreur, on affiche un message et on arrête tout
-    die('Erreur : '.$e->getMessage());
-    }
 
-  // Si tout va bien, on peut continuer
+    include('bdd.php');
 
   // On récupère tout le contenu de la table
      $id = $_GET['id'];
      $req = "SELECT * FROM film,realisateur,genre,acteur WHERE id_film=$id and film.id_realisateur = realisateur.id_realisateur and film.id_genre = genre.id_genre and film.id_acteur = acteur.id_acteur";
      $reponse = $bdd->query($req);
-
-     //header('Location: allo_films.php');
-     //exit();
-     //SELECT * FROM film, realisateur WHERE id_film=1 and film.id_realisateur = realisateur.id_realisateur
-
 
   // On affiche chaque entrée une à une
     while ($donnees = $reponse->fetch())
@@ -72,7 +57,6 @@
     ?>
 
     <!--  pour le titre -->
-
   <div class="hoofd">
     <h1 class="text-uppercase"><?php echo $donnees['titre']; ?></h1>
     <div class="fleches_2">

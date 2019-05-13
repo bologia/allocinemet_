@@ -31,8 +31,8 @@
             <div id="Navbar">
                 <a href="allo_films.php">FILMS </a>
                 <a href="contact.php">CONTACT </a>
-                <a href="acteur.php">ACTEURS </a>
-                <a href="realisateur.php">REALISATEURS </a>
+                <a href="perso.php">ARTISTES </a>
+
             </div>
             <div class="m-nav-toggle">
               <span class="m-toggle-icon"></span>
@@ -70,19 +70,12 @@
       <div class="carousel mt-5" data-flickity>
 
         <?php
-        try
-        {
-      // On se connecte à MySQL
-        $bdd = new PDO('mysql:host=localhost;dbname=cinemet-bolo','gianni','piouroot');
-        }
-        catch(Exception $e)
-        {
-      // En cas d'erreur, on affiche un message et on arrête tout
-        die('Erreur : '.$e->getMessage());
-        }
+
+         include('bdd.php');
 
          $req = "SELECT imag,id_film FROM film";
          $reponse = $bdd->query($req);
+
 
       // On affiche chaque entrée une à une
         while ($donnees = $reponse->fetch())

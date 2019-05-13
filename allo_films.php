@@ -26,8 +26,8 @@
             <div id="Navbar">
                 <a class="liens" href="allo_films.php">FILMS </a>
                 <a class="liens" href="contact.php">CONTACT </a>
-                <a class="liens" href="acteur.php">ACTEURS </a>
-                <a class="liens" href="realisateur.php">REALISATEURS </a>
+                <a class="liens" href="perso.php">ARTISTES </a>
+
             </div>
             <div class="m-nav-toggle">
                 <span class="m-toggle-icon"></span>
@@ -56,30 +56,22 @@
                     <button>Rechercher</button>
 
                     <?php
-                    try
-                    {
-                  // On se connecte à MySQL
-                    $bdd = new PDO('mysql:host=localhost;dbname=cinemet-bolo;charset=utf8mb4','gianni','piouroot');
-                    }
-                    catch(Exception $e)
-                    {
-                  // En cas d'erreur, on affiche un message et on arrête tout
-                    die('Erreur : '.$e->getMessage());
-                    }
+
+                    include('bdd.php');
 
                      $req = "SELECT nom_genre,id_genre FROM genre";
                      $reponse = $bdd->query($req);
+
+                     ?>
+
+                     <?php
 
                   // On affiche chaque entrée une à une
                     while ($donnees = $reponse->fetch())
                     {
                     ?>
 
-                    <li><a class="collapsible"><?php echo $donnees['nom_genre']; ?></a>
-                        <ul>
-                            <li><a href="#">Nouveautés</a></li>
-                            <li><a href="type.php?id=<?php echo $donnees['id_genre']; ?>">Tous les films</a></li>
-                        </ul>
+                    <li><a href="type.php?id=<?= $donnees['id_genre']; ?>" class="collapsible"><?php echo $donnees['nom_genre']; ?></a>
                     </li>
 
                     <?php
@@ -96,26 +88,28 @@
                 <ul id="menu-accordeon">
                     <input type="search" id="site-search" name="q" aria-label="Search through site content">
                     <button>Rechercher</button>
-                    <li><a href="#" class="collapsible">Films</a>
+                    <li><a class="collapsible">Films</a>
                         <ul>
-                            <li><a href="#" class="collapsible">Action</a>
+                          <?php
 
-                            </li>
-                            <li><a href="#" class="collapsible">Science-fiction</a>
+                          include('bdd.php');
 
-                            </li>
-                            <li><a href="#" class="collapsible">Comédie</a>
+                           $req = "SELECT nom_genre,id_genre FROM genre";
+                           $reponse = $bdd->query($req);
 
-                            </li>
-                            <li><a href="#" class="collapsible">Drame</a>
 
-                            </li>
-                            <li><a href="#" class="collapsible">Animation</a>
+                        // On affiche chaque entrée une à une
+                          while ($donnees = $reponse->fetch())
+                          {
+                          ?>
 
-                            </li>
-                            <li><a href="#" class="collapsible">Horreur</a>
+                          <li><a href="type.php?id=<?php echo $donnees['id_genre']; ?>" class="collapsible"><?php echo $donnees['nom_genre']; ?></a>
+                          </li>
 
-                            </li>
+                          <?php
+                          }
+                          $reponse->closeCursor(); // Termine le traitement de la requête
+                          ?>
                         </ul>
                     </li>
                 </ul>
@@ -130,16 +124,8 @@
 
     <div class="test">
         <?php
-        try
-        {
-      // On se connecte à MySQL
-        $bdd = new PDO('mysql:host=localhost;dbname=cinemet-bolo;charset=utf8mb4','gianni','piouroot');
-        }
-        catch(Exception $e)
-        {
-      // En cas d'erreur, on affiche un message et on arrête tout
-        die('Erreur : '.$e->getMessage());
-        }
+
+        include('bdd.php');
 
          $req = "SELECT imag,titre,id_film FROM film";
          $reponse = $bdd->query($req);
@@ -168,16 +154,8 @@
         <div class="siema">
 
           <?php
-          try
-          {
-        // On se connecte à MySQL
-          $bdd = new PDO('mysql:host=localhost;dbname=cinemet-bolo','gianni','piouroot');
-          }
-          catch(Exception $e)
-          {
-        // En cas d'erreur, on affiche un message et on arrête tout
-          die('Erreur : '.$e->getMessage());
-          }
+
+          include('bdd.php');
 
            $req = "SELECT imag,id_film FROM film";
            $reponse = $bdd->query($req);

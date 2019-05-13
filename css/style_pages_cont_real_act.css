@@ -212,6 +212,14 @@ span.m-toggle-icon:after{top: -13px;}
 ----pour la galerie des affiches------
 -------------------------------------*/
 
+.titre {
+  margin: 1% 40%;
+  font-family: 'Poiret One', cursive;
+  font-size: 2em;
+  font-weight: 600;
+  color: #c7c3c3;
+}
+
 #real .liens_films, #acteur .liens_films {
     display: flex;
     flex-direction: row;

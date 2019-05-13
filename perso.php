@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>films</title>
+    <title>art</title>
     <link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
     <link src="css/animate.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/type.css">
+    <link rel="stylesheet" href="css/perso.css">
     <link rel="stylesheet" href="css/animate.css">
 
 </head>
@@ -37,75 +37,123 @@
 
     <!--//////////////////////////////  HEADER  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\-->
 
-    <?php
-
-    include('bdd.php');
-
-     $id = $_GET['id'];
-     $req = "SELECT * FROM genre WHERE id_genre=$id ";
-     $reponse = $bdd->query($req);
-
-     // On affiche chaque entrée une à une
-       while ($donnees = $reponse->fetch())
-       {
-       ?>
-
     <div class="header_films">
-        <h1>films <?php echo $donnees['nom_genre']; ?></h1>
+        <h1>Artistes</h1>
         <div class="ligne">
             <img class="ligne_g fadeInLeft animated" src="img/ligne_g.png">
             <img class="ligne_d fadeInRight animated" src="img/ligne_d.png">
         </div>
     </div>
 
-    <?php
-    }
-    $reponse->closeCursor(); // Termine le traitement de la requête
-    ?>
+      <center><input type="search" id="site-search" name="q" aria-label="Search through site content">
+      <button>Rechercher</button></center>
 
-        <!--//////////////////////////////  MINIATURES FILMS DROITE  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\-->
+        <main id="content">
 
-        <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="liens_films fadeInUp animated">
-                <div class="titre">  </div><br />
+          <!--  pour le titre -->
 
-    <div class="test">
-
-      <?php
-
-      include('bdd.php');
-
-      $id = $_GET['id'];
-      $req = "SELECT * FROM genre,film WHERE genre.id_genre=$id AND film.id_genre = genre.id_genre";
-      $reponse = $bdd->query($req);
-
-    // On affiche chaque entrée une à une
-      while ($donnees = $reponse->fetch())
-      {
-      ?>
-
-          <a href="content.php?id=<?php echo $donnees['id_film']; ?>"><img class="effect " src="img/<?php echo $donnees['imag']; ?>" id="action">
-              <p><?php echo $donnees['titre']; ?></p>
-          </a>
-
-      <?php
-      }
-      $reponse->closeCursor(); // Termine le traitement de la requête
-      ?>
-
-    </div>
-           </div>
+        <div class="hoofd">
+          <h1 class="text-uppercase">Acteurs</h1>
+          <h1 class="text-uppercase">Réalisateurs</h1>
         </div>
+
+        <div class="les2listes">
+          <div class="row">
+            <div class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1"></div>
+              <div class="col-10 col-sm-10 col-md-10 col-lg-4 col-xl-5">
+
+            <div class="list-group">
+                <div class="d-flex w-100 justify-content-between">
+                </div>
+
+                <?php
+
+                include('bdd.php');
+
+                 $req = "SELECT nom_acteur,id_acteur FROM acteur";
+                 $reponse = $bdd->query($req);
+
+                // On affiche chaque entrée une à une
+                while ($donnees = $reponse->fetch())
+                {
+                ?>
+
+                  <div class="d-flex w-100 justify-content-between" id="bote">
+                    <a href="acteur.php?id=<?php echo $donnees['id_acteur']; ?>" class="list-group-item list-group-item-action">
+                    <h5 class="mb-1"><?php echo $donnees['nom_acteur']; ?></h5>
+                    </a>
+                  </div>
+
+
+                <?php
+                }
+                $reponse->closeCursor(); // Termine le traitement de la requête
+                ?>
+
+
+            </div>
+
+              </div>
+
+          <div class="col-1 col-sm-3 col-md-3 col-lg-1 col-xl-1"></div>
+          <div class="col-2 col-sm-2 col-md-2 col-lg-1 col-xl-1"></div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1"></div>
+            <div class="col-10 col-sm-10 col-md-10 col-lg-4 col-xl-5">
+
+          <div class="list-group">
+              <div class="d-flex w-100 justify-content-between">
+              </div>
+
+              <?php
+
+              include('bdd.php');
+
+               $req = "SELECT nom_realisateur,id_realisateur FROM realisateur";
+               $reponse = $bdd->query($req);
+
+              // On affiche chaque entrée une à une
+              while ($donnees = $reponse->fetch())
+              {
+              ?>
+
+                <div class="d-flex w-100 justify-content-between" id="bote">
+                  <a href="realisateur.php?id=<?php echo $donnees['id_realisateur']; ?>" class="list-group-item list-group-item-action">
+                  <h5 class="mb-1"><?php echo $donnees['nom_realisateur']; ?></h5>
+                  </a>
+                </div>
+
+
+              <?php
+              }
+              $reponse->closeCursor(); // Termine le traitement de la requête
+              ?>
+
+
+          </div>
+
+            </div>
+
+        <div class="col-1 col-sm-3 col-md-3 col-lg-1 col-xl-1"></div>
+        <div class="col-2 col-sm-2 col-md-2 col-lg-1 col-xl-1"></div>
+      </div>
+    </div>
+
+        </main>
 
     <!--//////////////////////////////  FOOTER  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\-->
 
     <footer id="footer" class="page-footer font-small text-white mdb-color pt-4">
 
+
         <!-- Footer Links -->
         <div class="container text-center text-md-left ">
 
             <!-- Footer links -->
-            <div class="row text-center text-md-left mt-3 pb-3 mx-auto">
+            <div class="row text-center text-md-left mt-3 pb-3 mx-auto" id="foot">
 
                 <!-- Grid column -->
                 <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
@@ -179,7 +227,7 @@
             <hr class="hr-footer">
 
             <!-- Grid row -->
-            <div class="row d-flex align-items-center">
+            <div class="row d-flex align-items-center" id="foot">
 
                 <!-- Grid column -->
                 <div class="col-md-6 col-lg-7">
@@ -229,7 +277,7 @@
 
         </div>
         <!-- Footer Links -->
-
+      </div>
     </footer>
 
     <!--//////////////////////////////  BACK TO TOP BTN  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\-->
