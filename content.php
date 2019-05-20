@@ -48,7 +48,7 @@
 
   // On récupère tout le contenu de la table
      $id = $_GET['id'];
-     $req = "SELECT * FROM film,realisateur,genre,acteur WHERE id_film=$id and film.id_realisateur = realisateur.id_realisateur and film.id_genre = genre.id_genre and film.id_acteur = acteur.id_acteur";
+     $req = "SELECT * FROM film WHERE id_film=$id";
      $reponse = $bdd->query($req);
 
   // On affiche chaque entrée une à une
@@ -75,6 +75,13 @@
     <p class="text-center bg-light"><?php echo $donnees['resume']; ?>
     </p>
 
+    <?php
+    }
+
+    $reponse->closeCursor(); // Termine le traitement de la requête
+
+    ?>
+
     <!-- pour la partie récap d'infos et la bande annonce -->
 
   <div class="row">
@@ -82,33 +89,152 @@
     <div class="col-10 col-sm-10 col-md-10 col-lg-4 col-xl-5">
 
     <div class="list-group">
-  <div class="list-group-item list-group-item-action">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">Date</h5>
-    </div>
-    <p class="mb-1"><?php echo $donnees['date']; ?></p>
 
+
+  <div class="d-flex w-100 justify-content-between">
+    <h5 class="mb-1">Date</h5>
   </div>
+
+  <?php
+
+  include('bdd.php');
+
+  // On récupère tout le contenu de la table
+   $id = $_GET['id'];
+   $req = "SELECT * FROM film WHERE film.id_film=$id";
+   $reponse = $bdd->query($req);
+
+  // On affiche chaque entrée une à une
+  while ($donnees = $reponse->fetch())
+  {
+  ?>
+
+
+  <div class="list-group-item list-group-item-action">
+    <p class="mb-1"><?php echo $donnees['date']; ?></p>
+  </div>
+
+  <?php
+  }
+
+  $reponse->closeCursor(); // Termine le traitement de la requête
+
+  ?>
+
+
+
+
+
+  <div class="d-flex w-100 justify-content-between">
+    <h5 class="mb-1">Réalisateur</h5>
+  </div>
+
+  <?php
+
+  include('bdd.php');
+
+  // On récupère tout le contenu de la table
+   $id = $_GET['id'];
+   $req = "SELECT * FROM film,realisateur,cree WHERE film.id_film=$id AND realisateur.id_realisateur = cree.id_realisateur AND film.id_film = cree.id_film";
+   $reponse = $bdd->query($req);
+
+  // On affiche chaque entrée une à une
+  while ($donnees = $reponse->fetch())
+  {
+  ?>
+
   <a href="realisateur.php?id=<?php echo $donnees['id_realisateur']; ?>" class="list-group-item list-group-item-action">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">Réalisateur</h5>
-    </div>
+
     <p class="mb-1"><?php echo $donnees['nom_realisateur']; ?></p>
   </a>
+
+  <?php
+  }
+
+  $reponse->closeCursor(); // Termine le traitement de la requête
+
+  ?>
+
+
+
+  <div class="d-flex w-100 justify-content-between">
+    <h5 class="mb-1">Acteurs</h5>
+  </div>
+
+  <?php
+
+  include('bdd.php');
+
+  // On récupère tout le contenu de la table
+   $id = $_GET['id'];
+   $req = "SELECT * FROM film,acteur,joue WHERE film.id_film=$id AND acteur.id_acteur = joue.id_acteur AND film.id_film = joue.id_film";
+   $reponse = $bdd->query($req);
+
+  // On affiche chaque entrée une à une
+  while ($donnees = $reponse->fetch())
+  {
+  ?>
+
   <a href="acteur.php?id=<?php echo $donnees['id_acteur']; ?>" class="list-group-item list-group-item-action">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">Acteurs</h5>
-    </div>
+
     <p class="mb-1"><?php echo $donnees['nom_acteur']; ?></p>
   </a>
-  <a href="type.php?id=<?php echo $donnees['id_genre']; ?>" class="list-group-item list-group-item-action">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">Genre</h5>
-    </div>
+
+  <?php
+  }
+
+  $reponse->closeCursor(); // Termine le traitement de la requête
+
+  ?>
+
+  <div class="d-flex w-100 justify-content-between">
+    <h5 class="mb-1">Genre</h5>
+  </div>
+
+  <?php
+
+  include('bdd.php');
+
+  // On récupère tout le contenu de la table
+   $id = $_GET['id'];
+   $req = "SELECT * FROM film,genre,appartient WHERE film.id_film=$id AND genre.id_genre = appartient.id_genre AND film.id_film = appartient.id_film";
+   $reponse = $bdd->query($req);
+
+  // On affiche chaque entrée une à une
+  while ($donnees = $reponse->fetch())
+  {
+  ?>
+
+  <a href="allo_films.php?id=<?php echo $donnees['id_genre']; ?>" class="list-group-item list-group-item-action">
+
     <p class="mb-1"><?php echo $donnees['nom_genre']; ?></p>
   </a>
+
+  <?php
+  }
+
+  $reponse->closeCursor(); // Termine le traitement de la requête
+
+  ?>
+
+
+
     </div>
     </div>
+
+    <?php
+
+    include('bdd.php');
+
+    // On récupère tout le contenu de la table
+     $id = $_GET['id'];
+     $req = "SELECT video FROM film WHERE id_film=$id";
+     $reponse = $bdd->query($req);
+
+    // On affiche chaque entrée une à une
+    while ($donnees = $reponse->fetch())
+    {
+    ?>
 
   <div class="col-1 col-sm-3 col-md-3 col-lg-1 col-xl-1"></div>
   <div class="col-8 col-sm-8 col-md-8 col-lg-4 col-xl-4">
@@ -117,14 +243,15 @@
 
   <div class="col-2 col-sm-2 col-md-2 col-lg-1 col-xl-1"></div>
 
+  <?php
+  }
+
+  $reponse->closeCursor(); // Termine le traitement de la requête
+
+  ?>
+
   </div>
 
-      <?php
-      }
-
-      $reponse->closeCursor(); // Termine le traitement de la requête
-
-      ?>
 
   </main>
 

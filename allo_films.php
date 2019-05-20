@@ -38,12 +38,49 @@
     <!--//////////////////////////////  HEADER  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\-->
 
     <div class="header_films">
-        <h1>NOS FILMS</h1>
-        <div class="ligne">
-            <img class="ligne_g fadeInLeft animated" src="img/ligne_g.png">
-            <img class="ligne_d fadeInRight animated" src="img/ligne_d.png">
-        </div>
+
+    <?php
+    include('bdd.php');
+
+    if(isset($_GET['id'])){
+
+      $id = $_GET['id'];
+      $req = "SELECT * FROM genre WHERE id_genre=$id ";
+      $reponse = $bdd->query($req);
+      $reponse->execute();
+
+    //  while ($donnees = $reponse->fetch())
+    //    {
+    $donnees = $reponse -> fetchAll(PDO::FETCH_ASSOC)
+          ?>
+
+          <h1>Films <?php echo $donnees[0]['nom_genre']; ?></h1>
+
+          <?php
+        //  }
+
+          $reponse->closeCursor(); // Termine le traitement de la requête
+
+          ?>
+          <?php
+
+        }
+        else {
+
+        echo  "<h1>NOS FILMS</h1>";
+
+             }
+
+    ?>
+
+    <div class="ligne">
+        <img class="ligne_g fadeInLeft animated" src="img/ligne_g.png">
+        <img class="ligne_d fadeInRight animated" src="img/ligne_d.png">
     </div>
+
+    </div>
+
+
 
     <!--//////////////////////////////  LISTE GAUCHE  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\-->
 
@@ -71,7 +108,7 @@
                     {
                     ?>
 
-                    <li><a href="type.php?id=<?= $donnees['id_genre']; ?>" class="collapsible"><?php echo $donnees['nom_genre']; ?></a>
+                    <li><a href="allo_films.php?id=<?= $donnees['id_genre']; ?>" class="collapsible"><?php echo $donnees['nom_genre']; ?></a>
                     </li>
 
                     <?php
@@ -103,7 +140,7 @@
                           {
                           ?>
 
-                          <li><a href="type.php?id=<?php echo $donnees['id_genre']; ?>" class="collapsible"><?php echo $donnees['nom_genre']; ?></a>
+                          <li><a href="allo_films.php?id=<?php echo $donnees['id_genre']; ?>" class="collapsible"><?php echo $donnees['nom_genre']; ?></a>
                           </li>
 
                           <?php
@@ -120,29 +157,58 @@
 
         <div class="col-lg-9 col-md-8 col-sm-8">
             <div class="liens_films fadeInUp animated">
-                <div class="titre"> Nouveautés </div><br />
+                <div class="titre">  </div><br />
 
     <div class="test">
-        <?php
 
-        include('bdd.php');
 
-         $req = "SELECT imag,titre,id_film FROM film";
-         $reponse = $bdd->query($req);
+      <?php
+      include('bdd.php');
 
-      // On affiche chaque entrée une à une
+      if(isset($_GET['id'])){
+
+        $id = $_GET['id'];
+        $req = "SELECT * FROM genre,film,appartient WHERE genre.id_genre=$id AND genre.id_genre = appartient.id_genre AND film.id_film = appartient.id_film ";
+        $reponse = $bdd->query($req);
+        //$reponse->execute();
+
         while ($donnees = $reponse->fetch())
-        {
-        ?>
+          {
+            ?>
 
             <a href="content.php?id=<?php echo $donnees['id_film']; ?>"><img class="effect " src="img/<?php echo $donnees['imag']; ?>" id="action">
-                <p><?php echo $donnees['titre']; ?></p>
+              <br><br> <p><?php echo $donnees['titre']; ?></p>
             </a>
 
-        <?php
-        }
-        $reponse->closeCursor(); // Termine le traitement de la requête
-        ?>
+            <?php
+            }
+
+            $reponse->closeCursor(); // Termine le traitement de la requête
+
+            ?>
+            <?php
+
+          }
+          else {
+
+            $req = "SELECT imag,titre,id_film FROM film";
+            $reponse = $bdd->query($req);
+            //$reponse->execute();
+
+              while ($donnees = $reponse->fetch())
+              {
+              ?>
+
+                  <a href="content.php?id=<?php echo $donnees['id_film']; ?>"><img class="effect " src="img/<?php echo $donnees['imag']; ?>" id="action">
+                    <br><br>  <p><?php echo $donnees['titre']; ?></p>
+                  </a>
+
+              <?php
+              }
+              $reponse->closeCursor();
+            }
+              ?>
+
 
     </div>
            </div>

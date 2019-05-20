@@ -138,7 +138,7 @@
             include('bdd.php');
 
             $id = $_GET['id'];
-            $req = "SELECT * FROM acteur,film WHERE acteur.id_acteur=$id AND film.id_acteur = acteur.id_acteur";
+            $req = "SELECT * FROM acteur,film,joue WHERE acteur.id_acteur=$id AND joue.id_acteur = acteur.id_acteur AND joue.id_film = film.id_film";
             $reponse = $bdd->query($req);
 
           // On affiche chaque entrée une à une
